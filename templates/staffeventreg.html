@@ -1,0 +1,102 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+
+    <style>
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+
+<center>
+    <h2 style="margin-bottom:30px;"> Event Registration Form </h2>
+    <form action="{% url 'eventpage' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="event_name">Event Name:</label>
+        <input type="text" id="event_name" name="event_name" required autofocus>
+
+        <label for="event_image">Event Image:</label>
+        <input type="file" id="event_image" name="event_image" accept="image/*" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="start_time">Start Time:</label>
+        <input type="time" id="start_time" name="start_time">
+
+        <label for="end_time">End Time:</label>
+        <input type="time" id="end_time" name="end_time">
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+
+        <label for="ticket_price">Ticket Price:</label>
+        <input type="number" id="ticket_price" name="ticket_price"  autofocus required>
+
+        <label for="slots_available">Slots Available:</label>
+        <input type="number" id="slots_available" name="slots_available">
+
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="place">Place:</label>
+        <input type="text" id="place" name="place" required>
+
+        <label for="focus">Focus:</label>
+        <select id="focus" name="focus" required>
+            <option value="none">none</option>
+            <option value="male">male</option>
+            <option value="female">female</option>
+            <option value="other">other</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <hr><button type="submit" value="submit" style="background-color:#0d1385;">Register Event</button>
+    </form>
+</center>
+
+
+
+
+
+
+{% endblock %}

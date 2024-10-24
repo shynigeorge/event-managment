@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 30%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+
+<center>
+    <h1 style="margin-top:20px;">Organization Registration</h1>
+  <form action="" method="post">
+      {% csrf_token %}
+    <label for="organizationName">Organization Name:</label>
+    <input type="text" id="organizationName" name="organ" required autofocus>
+
+    <label for="managerName">Manager Name:</label>
+    <input type="text" id="managerName" name="mng" required>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="uname" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone"  maxlength="10" minlength="10" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="pw" required>
+
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="cpw" required>
+      <br>
+    <button type="submit" >Register</button>
+  </form>
+</center>
+
+
+
+{% endblock %}

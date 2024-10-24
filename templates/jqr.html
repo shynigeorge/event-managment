@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Ticket Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #navbar {
+            background-color: #007bff;
+            padding: 10px 0;
+            text-align: center;
+            color: white;
+        }
+        #scanner-container {
+            margin: 20px auto;
+            width: 300px;
+            height: 300px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #video {
+            width: 100%;
+            height: 100%;
+        }
+        #buttons-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        #decodedTextContainer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        #responseTableContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <a href="{% url 'nad' %}"><span style="margin-right:1400px;text-decoration: none;color:white;">Go Back</span></a>
+        <h1>Evento Ticket Scanner</h1>
+    </div>
+    <div id="scanner-container">
+        <video id="video" playsinline></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+    </div>
+    <div id="buttons-container">
+        <button id="startButton" class="btn" onclick="startCamera()">Start Camera</button>
+        <button id="stopButton" class="btn" onclick="stopCamera()" style="display: none;">Stop Camera</button>
+    </div>
+    <div id="decodedTextContainer"></div>
+    <div id="responseTableContainer"></div>
+
+    <script src="https://rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const decodedTextContainer = document.getElementById('decodedTextContainer');
+        const responseTableContainer = document.getElementById('responseTableContainer');
+        let stream;
+
+        video.addEventListener('loadedmetadata', function() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            startCapturing();
+        });
+
+        function startCapturing() {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+            if (code && code.data) {
+                const decodedText = code.data;
+                displayDecodedText(decodedText);
+                sendToDjango(decodedText);
+            }
+
+            requestAnimationFrame(startCapturing);
+        }
+
+        function displayDecodedText(decodedText) {
+            decodedTextContainer.innerText = decodedText;
+        }
+
+        function displayResponseData(ticketDetails) {
+            responseTableContainer.innerHTML = '';
+
+            const table = document.createElement('table');
+            const tbody = document.createElement('tbody');
+
+            if (ticketDetails === 'Invalid Ticket') {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.textContent = 'Invalid Ticket';
+                cell.colSpan = 2;
+                row.appendChild(cell);
+                tbody.appendChild(row);
+            } else {
+                for (const key in ticketDetails) {
+                    const row = document.createElement('tr');
+                    const cellKey = document.createElement('td');
+                    const cellValue = document.createElement('td');
+
+                    cellKey.textContent = key;
+                    cellValue.textContent = ticketDetails[key];
+
+                    row.appendChild(cellKey);
+                    row.appendChild(cellValue);
+                    tbody.appendChild(row);
+                }
+            }
+
+            table.appendChild(tbody);
+            responseTableContainer.appendChild(table);
+        }
+
+        function sendToDjango(decodedText) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/nadmin/verify_ticket/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                        console.log(response.ticket_details);
+                        displayResponseData(response.ticket_details);
+                    } else {
+                        console.error('Error:', xhr.status);
+                        displayResponseData('Invalid Ticket');
+                    }
+                }
+            };
+            xhr.send(JSON.stringify({ decodedText: decodedText }));
+        }
+
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then(function(str) {
+                    stream = str;
+                    video.srcObject = stream;
+                    video.play();
+                    document.getElementById('startButton').style.display = 'none';
+                    document.getElementById('stopButton').style.display = 'inline-block';
+                })
+                .catch(function(err) {
+                    console.log("An error occurred: " + err);
+                });
+        }
+
+        function stopCamera() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                document.getElementById('startButton').style.display = 'inline-block';
+                document.getElementById('stopButton').style.display = 'none';
+            }
+        }
+
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

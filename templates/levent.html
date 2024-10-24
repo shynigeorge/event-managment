@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: black;
+            color: white;
+            padding: 10px;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="goBack()">Back to Dashboard</button>
+    </div>
+
+    <div class="container">
+        <h2>Event Table</h2>
+        {% if event %}
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Event Name</th>
+                    <th>Start Time | End time</th>
+                    <th>Event Image</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in event %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.event_name}}</td>
+                    <td>{{i.start_time}} - {{i.end_time}}</td>
+                    <td><img src="{{i.event_image.url}}" alt="Event 1 Image" width="50px;" height="50px;"></td>
+                    {% if i.status == True %}
+                    <td style="color:green;">Active</td>
+                    {% else %}
+                    <td style="color:red;">Expired</td>
+                    {% endif %}
+                    <td>{{i.start_date}} - {{i.end_date}}</td>
+                    <td>{{i.place}}<br>{{i.city}}<br>{{i.district}}</td>
+                    <td><a href="{% url 'eedit' i.id %}"><button style="background-color:green;color:white;">Edit</button></a><a href="{% url 'delev' i.id %}"><button style="margin-left:4px;background-color:red;color:white;">Delete</button></a></td>
+                </tr>
+            {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        {% else %}
+        <h1 style="text-align:center;color:blue;">No Events Yet Created..!</h1>
+        {% endif %}
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+    <script>
+     alert("{{message}}");
+    </script>
+{% endfor %}
+</ul>
+{% endif %}
+</html>

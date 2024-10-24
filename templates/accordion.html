@@ -1,0 +1,78 @@
+{% load static %}
+
+
+    <section class="accordion fix section-padding30">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-lg-6 col-md-6">
+                    <!-- Section Tittle -->
+                    <div class="section-tittle text-center mb-80">
+                        <h2>Event Schedule</h2>
+                        <p>Embark on a journey of discovery and delight at our upcoming event. Join us as we celebrate creativity, community, and the joy of new beginnings.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+
+               <div class="col-lg-11">
+                   {% for i in event %}
+                    <div class="properties__button mb-40">
+
+                        <!--Nav Button  -->
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">date : {{i.start_date}} - {{i.end_date}}</a>
+
+                            </div>
+                        </nav>
+                        <!--End Nav Button  -->
+                    </div>
+                    {% endfor %}
+               </div>
+
+            </div>
+
+        </div>
+        <div class="container">
+            <!-- Nav Card -->
+            <div class="tab-content" id="nav-tabContent">
+                <!-- card one -->
+
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    {% for i in event %}
+                   <div class="row">
+
+                        <div class="col-lg-11">
+                            <div class="accordion-wrapper">
+                                <div class="accordion" id="accordionExample">
+                                    <!-- single-one -->
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h2 class="mb-0">
+                                                <a href="{% url 'eventdescription' i.id %}" class="btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <span>{{i.start_time}} - {{i.end_time}}</span>
+                                                    <a href="{% url 'eventdescription' i.id %}"><h1>{{i.event_name}}</h1></a>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <h4>slots : {{i.slots_available}}</h4>
+                                                {{i.description}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                   </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Card two -->
+            </div>
+            <!-- End Nav Card -->
+        </div>
+    </section>

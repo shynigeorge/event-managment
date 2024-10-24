@@ -1,0 +1,36 @@
+{% load static %}
+
+    <section class="pricing-card-area section-padding2">
+        <div class="container">
+            <!-- Section Tittle -->
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-8">
+                    <div class="section-tittle text-center mb-100">
+                        <h2>Program Pricing</h2>
+                        <p>There arge many variations ohf passages of sorem gp ilable, but the majority have ssorem gp iluffe.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for i in event %}
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                    <div class="single-card text-center mb-30">
+                        <div class="card-top">
+                            <span>Day - {{forloop.counter}}</span>
+                            <h4>₹ {{i.ticket_price}}</h4>
+                        </div>
+                        <div class="card-bottom">
+                            <ul>
+                                <li>{{i.start_time}} - {{i.end_time}}<li>
+                                <li>{{i.city}}</li>
+                                <li>{{i.place}}</li>
+                                <li>{{i.event_organizer.phone}}</li>
+                            </ul>
+                            <a href="{% url 'eventdescription' i.id %}" class="black-btn">Book Tickets</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>

@@ -1,0 +1,202 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+
+
+        <div class="main-panel">
+          <div class="content-wrapper pb-0">
+            <div class="page-header flex-wrap">
+              <h3 class="mb-0"> Hi {{request.user.username.upper}} , welcome back! <span class="pl-0 h6 pl-sm-2 text-muted d-inline-block">Your event analytics dashboard template.</span>
+              </h3>
+
+            </div>
+            <div class="row">
+              <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
+                <div class="row">
+                  <a href="">
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                    <div class="card bg-warning">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          {% if request.user.is_superuser %}
+                          <a href="{% url 'evall' %}">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head"></p>
+                            <h2 class="text-white">Latest Events..!<span class="h5"></span>
+                            </h2>
+                          </div></a>
+                          {% else %}
+                          <a href="{% url 'lbok' %}">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head"></p>
+                            <h2 class="text-white">Latest Bookings..!<span class="h5"></span>
+                            </h2>
+                          </div></a>
+                          {% endif %}
+                          <i class="card-icon-indicator mdi mdi-basket bg-inverse-icon-warning"></i>
+                        </div>
+                        <h6 class="text-white">Since last month</h6>
+                      </div>
+                    </div>
+                  </div>
+                   </a>
+                  {% if request.user.is_superuser %}
+                  <a href="{% url 'cbt' %}">
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                    <div class="card bg-danger">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Total</p>
+                            <h2 class="text-white">Booked Tickets<span class="h5"></span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-cube-outline bg-inverse-icon-danger"></i>
+                        </div>
+                        <h6 class="text-white">Since last month</h6>
+                      </div>
+                    </div>
+                  </div>
+                    </a>
+                  {% else %}
+                  <a href="{% url 'lev' %}">
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                    <div class="card bg-danger">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head"></p>
+                            <h2 class="text-white">Events<span class="h5"></span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-cube-outline bg-inverse-icon-danger"></i>
+                        </div>
+                        <h6 class="text-white"></h6>
+                      </div>
+                    </div>
+                  </div>
+                    </a>
+                  {% endif %}
+                  {% if request.user.is_superuser %}
+                  <a href="{% url 'cil' %}">
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3 pb-lg-0 pb-xl-3">
+                    <div class="card bg-primary">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Total</p>
+                            <h2 class="text-white">Customers<span class="h5"></span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-briefcase-outline bg-inverse-icon-primary"></i>
+                        </div>
+                        <h6 class="text-white">Since last month</h6>
+                      </div>
+                    </div>
+                  </div>
+                    </a>
+                  {% else %}
+                  <a href="{% url 'visted'  %}">
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3 pb-lg-0 pb-xl-3">
+                    <div class="card bg-primary">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Total</p>
+                            <h2 class="text-white">Visitors<span class="h5"></span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-briefcase-outline bg-inverse-icon-primary"></i>
+                        </div>
+                        <h6 class="text-white">Since last month</h6>
+                      </div>
+                    </div>
+                  </div>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-xl-9 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <h5>Business Survey</h5>
+                        <p class="text-muted"><a class="text-muted font-weight-medium pl-2" href="#"><u></u></a>
+                        </p>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="card mb-3 mb-sm-0">
+                          <div class="card-body py-3 px-4">
+                            <p class="m-0 survey-head">Total Earnings Per Month</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value" style="color:green;">₹ {{tot}}</h3>
+                                <p class="text-success m-0"></p>
+                              </div>
+                              <div id="earningChart" class="flot-chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="card mb-3 mb-sm-0">
+                          <div class="card-body py-3 px-4">
+                            <p class="m-0 survey-head">Total Tickets Sold Per Month</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value" style="color:blue;">{{count}} / month</h3>
+                                <p class="text-danger m-0"></p>
+                              </div>
+                              <div id="productChart" class="flot-chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="card">
+                          <div class="card-body py-3 px-4">
+                            <p class="m-0 survey-head">Date  and Time</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">{% now "F j, Y g:i A" %}</h3>
+                                <p class="text-success m-0"></p>
+                              </div>
+                              <div id="orderChart" class="flot-chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div class="col-sm-12">
+                        <div class="flot-chart-wrapper">
+                          <div id="flotChart" class="flot-chart">
+                            <canvas class="flot-base"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <!--<div class="col-sm-8">-->
+                      <!--  <p class="text-muted mb-0"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore. <b>Learn More</b>-->
+                      <!--  </p>-->
+                      <!--</div>-->
+                      <div class="col-sm-4">
+                        <p class="mb-0 text-muted"></p>
+                        <h5 class="d-inline-block survey-value mb-0"></h5>
+                        <p class="d-inline-block text-danger mb-0">ak</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+{% endblock %}

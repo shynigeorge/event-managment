@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debit Card Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/img/bankback.jpg'); /* Replace 'background.jpg' with your image path */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+            height: 40px;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure the navbar stays on top */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 20px;
+        }
+        .container {
+
+            width: 40%;
+            margin: 80px auto 0; /* Adjusted margin to accommodate the navbar */
+        }
+        .card {
+            background: linear-gradient(to right, #007bff, #00bcd4); /* Gradient background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top:228px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px); /* Move card up on hover */
+        }
+        .card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+            color: #333; /* Dark text color */
+            outline: none; /* Remove default input outline */
+        }
+        .card input[type="submit"] {
+            background-color: #4CAF50; /* Green color for the button */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            border: none;
+            outline: none; /* Remove default button outline */
+            padding: 12px;
+            border-radius: 5px;
+            width: 100%;
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.2); /* Glow effect */
+        }
+        .card input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green color on hover */
+            box-shadow: 0 12px 20px rgba(76, 175, 80, 0.4); /* Enhanced glow effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#" style="color: #fff; text-decoration: none;">Back to Home</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2 style="text-align: center;">Debit Card Information</h2>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" maxlength="16" minlength="16" name="cardNumber" autofocus placeholder="Enter card number" required>
+
+                <label for="cardHolder">Card Holder Name</label>
+                <input type="text" id="cardHolder"  maxlength="20" name="cardHolder" placeholder="Enter card holder name" required>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="flex-grow: 1; margin-right: 10px;">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" maxlength="3" minlength="3" placeholder="CVV" required>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="date" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                    </div>
+                </div>
+
+                <label for="pin">PIN</label>
+                <input type="password" id="pin" name="pin" maxlength="4" minlength="4" placeholder="Enter PIN" required>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+

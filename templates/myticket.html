@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid black;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+
+    <h1>My Ticket Bookings</h1>
+<div class="container" style="margin-bottom:150px;">
+    <table>
+        <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Number of Tickets</th>
+            <th>Status</th>
+            <th>Total Price</th>
+            <th>Action</th>
+        </tr>
+        <!-- Sample Data (Replace with actual data) -->
+        {% for i in t %}
+        <tr>
+            <td>{{i.event.event_name}}</td>
+            <td>{{i.event.start_date}} - {{i.event.end_date}}</td>
+            <td>{{i.event.start_time}} - {{i.event.end_time}}</td>
+            <td>{{i.event.place}}</td>
+            <td>{{i.slots}}</td>
+            {% if i.valid == 'active' %}
+            <td style="color:green;">active</td>
+            {% else %}
+            <td style="color:yellow;">expired</td>
+            {% endif %}
+            <td> ₹ {{i.total}}</td>
+            <td><a href="{% url 'tdel' i.id %}"><button style="background-color:red;color:white;">Cancel</button></a></td>
+        </tr>
+        {% endfor %}
+
+        <!-- Add more rows for additional bookings -->
+    </table>
+
+</div>
+
+{% endblock %}

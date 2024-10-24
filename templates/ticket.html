@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Ticket</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            background-image:url('/static/img/back.jpg');
+        }
+        .ticket {
+            background-color: #fff;
+            width: 340px;
+            height:720px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #007bff;
+            transition: box-shadow 0.3s ease;
+        }
+        .ticket:hover {
+            box-shadow: 0px 0px 15px rgba(0, 123, 255, 0.7);
+        }
+        .ticket:before,
+        .ticket:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            top: -30px;
+        }
+        .ticket:before {
+            left: -30px;
+            transform: rotate(45deg);
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+        }
+        .ticket:after {
+            right: -30px;
+            transform: rotate(-45deg);
+            box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.1);
+        }
+        .ticket img {
+            width: 100%;
+            max-width: 200px;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .ticket-details th {
+            width: 30%;
+        }
+        .ticket-details td {
+            width: 70%;
+        }
+        .ticket-details tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .ticket-details tr:nth-child(odd) {
+            background-color: #e0e0e0;
+        }
+        .download-btn {
+            display: block;
+            width: 300px; /* Same width as ticket */
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto; /* Center the button */
+            transition: background-color 0.3s ease;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .ticket {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <h2 style="text-align:center;">Evento Ticket</h2>
+        <img src="{{t.qrcode.url}}" alt="QR Code">
+        <table class="ticket-details">
+            <tr>
+                <th>Event Name:<br><hr>Name:</th>
+                <td>{{t.event.event_name}}<br><hr>{{t.user.username.upper}}</td>
+            </tr>
+            <tr>
+                <th>Start Time:</th>
+                <td>{{t.event.start_time}}</td>
+            </tr>
+            <tr>
+                <th>End Time:</th>
+                <td>{{t.event.end_time}}</td>
+            </tr>
+            <tr>
+                <th>Location:</th>
+                <td>{{t.event.district}}<br>{{t.event.city}}</td>
+            </tr>
+            <tr>
+                <th>Place:</th>
+                <td>{{t.event.place}}</td>
+            </tr>
+            <tr>
+                <th>No. of Slots:</th>
+                <td>{{t.slots}}</td>
+            </tr>
+            <tr>
+                <th>Date:</th>
+                <td>{{t.datetime}}</td>
+            </tr>
+            <tr>
+                <th>Price:</th>
+                <td>₹ {{t.total}}</td>
+            </tr>
+        </table>
+        <hr>
+        <p><strong>Enjoy the event!</strong></p>
+    </div>
+
+        <button id="downloadBtn" class="download-btn" onclick="window.print();">Download PDF</button>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('printBtn').addEventListener('click', function() {
+            const ticket = document.querySelector('.ticket');
+            const pdf = new jsPDF();
+
+            pdf.html(ticket, {
+                callback: function(pdf) {
+                    pdf.save('movie_ticket.pdf');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

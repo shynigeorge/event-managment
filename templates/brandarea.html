@@ -1,0 +1,33 @@
+{% load static %}
+
+    <section class="team-area pt-180 pb-100 section-bg" data-background="{% static 'img/gallery/section_bg02.png' %}" id="eventdiv">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-9">
+                    <!-- Section Tittle -->
+                    <div class="section-tittle section-tittle2 mb-50">
+                        <h2>Upcoming Events</h2>
+                        <p>Embark on a journey of discovery and delight at our upcoming event. Join us as we celebrate creativity, community, and the joy of new beginnings.</p>
+
+                    </div>
+                </div>
+                {% for i in event %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+
+                    <div class="single-team mb-30">
+                        <div class="team-img">
+                            <a href="{% url 'eventdescription' i.id %}"><img src="{{i.event_image.url}}" alt="" height="260" width="350"></a>
+                            <!-- Blog Social -->
+
+                        </div>
+                        <div class="team-caption">
+                            <h3><a href="#">{{i.event_name}}</a></h3>
+                            <p> {{i.district}}</p>
+                            <a href="{% url 'eventdescription' i.id %}"><button class="btn btn-success bg-success rounded" style="padding:20px;">Get Tickets</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>

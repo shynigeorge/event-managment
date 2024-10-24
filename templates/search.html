@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .card {
+            width: 23%;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .card button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="container">
+        {% if event %}
+        {% for event in event %}
+        <div class="card">
+            <img src="{{ event.event_image.url }}" alt="{{ event.event_name }}">
+            <h2 style="text-align:center;">{{ event.event_name }}</h2>
+            <p style="text-align:center;"><strong>Place:</strong> {{ event.city }}</p>
+            <p style="text-align:center;"><strong>Slots Available:</strong> {{ event.slots_available }}</p>
+            <a href="{% url 'eventdescription' event.id %}" style="text-align:center;"><button>Show Details</button></a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2 style="text-align:center;color:blue;">Sorry no search results found..!</h2>
+        {% endif %}
+    </div>
+
+
+
+{% endblock %}

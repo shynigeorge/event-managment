@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: black;
+            color: white;
+            padding: 10px;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],input[type="number"], input[type="datetime"], select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="goBack()">Back to Dashboard</button>
+    </div>
+
+    <div class="container">
+        <h2>Edit Event</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {%  csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+    <script>
+     alert("{{message}}");
+    </script>
+{% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>
